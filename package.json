@@ -1,0 +1,31 @@
+{
+  "name": "lib-cbmdf",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+    "files": [
+    "dist"
+  ],
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "rollup": "rollup -c"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@simao.cbm.df.gov.br:desenv/lib-cbmdf.git"
+  },
+  "author": "Lucas Pereira",
+  "license": "ISC",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^21.0.1",
+    "@rollup/plugin-node-resolve": "^13.1.3",
+    "@rollup/plugin-typescript": "^8.3.0",
+    "@types/react": "^17.0.39",
+    "react": "^17.0.2",
+    "rollup": "^2.67.1",
+    "rollup-plugin-dts": "^4.1.0",
+    "typescript": "^4.5.5"
+  }
+}
