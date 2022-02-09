@@ -22,6 +22,6 @@ HelloWorld.args = {
 export const ClickMe = Template.bind({});
 ClickMe.args = {
   label: 'Click me!',
-   variant: 'contained',
-   disabled: true
+  variant: 'contained',
+  disabled: true
 };
