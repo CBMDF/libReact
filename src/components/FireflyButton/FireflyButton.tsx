@@ -15,7 +15,7 @@ const FireflyButton = (props: {
   onClick?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
   className?: string;
   LoadingIconSize?: number;
-  LoadingIconColor:
+  LoadingIconColor?:
     | "inherit"
     | "primary"
     | "secondary"
