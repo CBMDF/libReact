@@ -1,6 +1,6 @@
 {
   "name": "lib-cbmdf",
-  "version": "1.0.12",
+  "version": "1.0.15",
   "repository": {
     "type": "git",
     "url": "git@simao.cbm.df.gov.br:desenv/lib-cbmdf.git"
@@ -25,6 +25,7 @@
     "@storybook/addon-actions": "^6.4.18",
     "@storybook/addon-essentials": "^6.4.18",
     "@storybook/addon-links": "^6.4.18",
+    "@storybook/addon-postcss": "^2.0.0",
     "@storybook/builder-webpack5": "^6.4.18",
     "@storybook/manager-webpack5": "^6.4.18",
     "@storybook/preset-scss": "^1.0.3",
@@ -32,12 +33,15 @@
     "@testing-library/react": "^12.1.2",
     "@types/jest": "^27.4.0",
     "@types/react": "^17.0.39",
+    "autoprefixer": "^10.4.2",
     "babel-jest": "^27.5.1",
     "babel-loader": "^8.2.3",
     "css-loader": "^6.6.0",
     "html-webpack-plugin": "^5.5.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.5.1",
+    "postcss": "^8.4.6",
+    "postcss-import": "^14.0.2",
     "rollup": "^2.67.1",
     "rollup-plugin-dts": "^4.1.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
@@ -46,6 +50,7 @@
     "sass": "^1.49.7",
     "sass-loader": "^12.4.0",
     "style-loader": "^3.3.1",
+    "tailwindcss": "^3.0.23",
     "typescript": "^4.5.5"
   },
   "peerDependencies": {
