@@ -1,6 +1,6 @@
 {
   "name": "lib-cbmdf",
-  "version": "1.0.20",
+  "version": "1.0.22",
   "repository": {
     "type": "git",
     "url": "git@simao.cbm.df.gov.br:desenv/lib-cbmdf.git"
@@ -56,9 +56,9 @@
     "typescript": "^4.5.5"
   },
   "peerDependencies": {
+    "@apollo/client": "3.5.9",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "@apollo/client": "3.5.9"
+    "react-dom": "^17.0.2"
   },
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -69,6 +69,7 @@
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
+    "@mui/icons-material": "^5.4.2",
     "@mui/material": "^5.4.2",
     "clsx": "^1.1.1",
     "react-hook-form": "^7.27.0"
