@@ -1,13 +1,7 @@
-import {
-  FormControl,
-  FormHelperText,
-  InputLabel,
-  MenuItem,
-  Select,
-} from "@mui/material";
+import { TextField } from "@mui/material";
 import clsx from "clsx";
 import React from "react";
-import { Controller, useFormContext, UseFormReturn } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 
 const DynamicLabel = (props: {
   labelPosition?: "top" | "side";
@@ -26,20 +20,21 @@ const DynamicLabel = (props: {
   );
 };
 
-export interface DropdownWithLabelProps {
+export interface TextFieldWithLabelProps {
   name: string;
-  options: { label: any; value: any }[] | null | undefined;
   label?: string;
   disabled?: boolean;
   labelPosition?: "top" | "side";
+  type?: "number" | "text" | "date";
   required?: boolean;
-  onChange?: (e: any) => void;
   loading?: boolean;
   helperText?: string;
+  variant: "standard" | "outlined" | "filled";
 }
 
-const DropdownWithLabel = (props: DropdownWithLabelProps) => {
+const TextFieldWithLabel = (props: TextFieldWithLabelProps) => {
   const methods = useFormContext();
+
   return (
     <div
       className={clsx(
@@ -62,32 +57,18 @@ const DropdownWithLabel = (props: DropdownWithLabelProps) => {
           <Controller
             control={methods.control}
             name={props.name}
-            rules={{ required: props.required ?? false }}
+            rules={{ required: props.required ? props.required : false }}
             render={({ field }) => (
               <>
                 {
-                  <FormControl
-                    className="w-full"
-                    disabled={props.disabled}
-                    error={methods.formState.errors[props.name]}
+                  <TextField
+                    onChange={field.onChange}
+                    label={props.label}
+                    variant={props.variant}
+                    helperText={props.helperText}
                     required={props.required}
-                  >
-                    <InputLabel>{props.label}</InputLabel>
-                    <Select label={props.label} onChange={field.onChange}>
-                      {props.options && props.options?.length > 0 ? (
-                        props.options.map((e) => (
-                          <MenuItem key={e.value} value={e.value}>
-                            {e.label}
-                          </MenuItem>
-                        ))
-                      ) : (
-                        <MenuItem value={""}>Sem opções</MenuItem>
-                      )}
-                    </Select>
-                    {props.helperText && (
-                      <FormHelperText>{props.helperText}</FormHelperText>
-                    )}
-                  </FormControl>
+                    disabled={props.disabled}
+                  />
                 }
               </>
             )}
@@ -98,4 +79,4 @@ const DropdownWithLabel = (props: DropdownWithLabelProps) => {
   );
 };
 
-export default DropdownWithLabel;
+export default TextFieldWithLabel;
