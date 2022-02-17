@@ -1,12 +1,11 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import { FireflyAutoComplete } from "./FireflyAutoComplete";
+import FireflyAutoComplete from "./FireflyAutoComplete";
 import {
   ApolloClient,
   InMemoryCache,
   ApolloProvider,
-  useLazyQuery,
   gql,
 } from "@apollo/client";
 
@@ -45,9 +44,10 @@ Home.args = {
   firstLevel: "rates",
   //secondLevel: "nodes" -> opcional
   //firstLevel: "fnGovbrGetPessoasPorCpf"
-  loadingText: "Carregando... Digite 4 caracteres.",
+  loadingText: "Carregando... Digite 3 caracteres.",
   noOptionsText: "Não foi encontrado.  Digite 4 caracteres.",
   label: "Digite nome/cpf",
+  minCaracteres: 1
 };
 
 // query MyQueryfnGovbrGetPessoasPorCpf($cpf: String!) {

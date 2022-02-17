@@ -5,23 +5,22 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 import { useLazyQuery } from "@apollo/client";
 
-export const FireflyAutoComplete = (props: any) => {
+const FireflyAutoComplete = (props: any) => {
   const [options, setOptions] = React.useState<readonly any[]>([]);
   const [_controller, set_controller] = React.useState(new AbortController()); // state
 
   const [getRates, { loading: loadingRates }] = useLazyQuery(props.graphql, {
     context: {
       fetchOptions: { signal: _controller.signal },
-      queryDeduplication: false,
+ //     queryDeduplication: false,
     },
   });
 
   const getListAssincrona = async (searchText: string, r: string) => {
-    console.log("searchTextaa", searchText);
     if (loadingRates) {
       _controller.abort();
     }
-    if (r === "input" && searchText.length > 1) {
+    if (r === "input" && searchText.length > props.minCaracteres) {
       await set_controller(new AbortController());
       const data = await getRates({ variables: { searchText: searchText } });
 
@@ -31,7 +30,7 @@ export const FireflyAutoComplete = (props: any) => {
         setOptions(data.data[props.firstLevel]);
       }
     }
-    if (r === "input" && searchText.length <= 1) {
+    if (r === "input" && searchText.length <= props.minCaracteres) {
       setOptions([]);
     }
   };
@@ -73,3 +72,5 @@ export const FireflyAutoComplete = (props: any) => {
     />
   );
 };
+
+export default FireflyAutoComplete;

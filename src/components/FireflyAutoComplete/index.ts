@@ -1,3 +1,3 @@
-export { FireflyAutoComplete } from "./FireflyAutoComplete";
+export { default } from "./FireflyAutoComplete";
 
 
