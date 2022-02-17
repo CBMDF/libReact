@@ -1,6 +1,5 @@
 import React, { ElementType, ReactNode } from "react";
 import clsx from "clsx";
-import { FireflySpinner } from "..";
 import { CircularProgress, Icon, SvgIcon } from "@mui/material";
 
 const FireflyButton = (props: {
