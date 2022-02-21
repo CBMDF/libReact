@@ -8,28 +8,22 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { TextField } from "@mui/material";
 
-const columns = [
-  { field: "id", headerName: "ID", width: 90 },
-  {
-    field: "firstName",
-    headerName: "First name",
-    width: 150,
-    editable: true,
-  },
-  {
-    field: "lastName",
-    headerName: "Last name",
-    width: 150,
-    editable: true,
-  },
-  {
-    field: "age",
-    headerName: "Age",
-    type: "number",
-    width: 110,
-    editable: true,
-  },
-];
+export interface DataTableProps {
+  rowSize?: "small" | "medium";
+  columns: ColumnsProps[];
+}
+
+export interface ColumnsProps {
+  field: string;
+  headerName: string;
+  type?: "number";
+  width?: number;
+  editable?: boolean;
+}
+
+export interface FilterInputsProps {
+  [key: string]: string | undefined;
+}
 
 const rows: { [key: string]: any }[] = [
   { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
@@ -43,59 +37,91 @@ const rows: { [key: string]: any }[] = [
   { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
 ];
 
-interface DataTableProps {
-  rowSize?: "small" | "medium";
-}
-
-export default function DataTable(props: DataTableProps) {
-  const [data, setData] = React.useState(rows);
-  const [hasFilterChanged, setHasFilterChanged] =
-    React.useState<boolean>(false);
-  const listafiltros = React.useRef<{ [key: string]: string }>({});
-
-  React.useEffect(() => {
-    let tempData = rows;
-    Object.keys(listafiltros.current).map(
-      (e) =>
-        (tempData = tempData.filter((arg) =>
-          String(arg[e])
-            .toLowerCase()
-            .includes(listafiltros.current[e].toLowerCase())
-        ))
-    );
-    setData(tempData);
-  }, [hasFilterChanged]);
-
+export function TableHeader(props: {
+  columns: ColumnsProps[];
+  filterInputs: FilterInputsProps;
+  setFilterInputs: (arg: FilterInputsProps) => void;
+  rowclassName?: string;
+}) {
+  const { columns, filterInputs, setFilterInputs, rowclassName } = props;
   function handleUpdateFilterInput(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     field: string
   ) {
-    let temp = { ...listafiltros.current!, [field]: e.target.value };
-    listafiltros.current = temp;
-    setHasFilterChanged((hasFilterChanged) => !hasFilterChanged);
+    let temp = { ...filterInputs!, [field]: e.target.value };
+    setFilterInputs(temp);
   }
 
+  return (
+    <TableHead>
+      <TableRow className={rowclassName}>
+        <TableCell colSpan={columns.length - 1} />
+        <TableCell>
+          <TextField
+            size="small"
+            className="bg-white"
+            onChange={(e) => handleUpdateFilterInput(e, "globalFilter")}
+          />
+        </TableCell>
+      </TableRow>
+      <TableRow className={rowclassName}>
+        {columns.map((e) => (
+          <TableCell align="center">{e.headerName}</TableCell>
+        ))}
+      </TableRow>
+      <TableRow className={rowclassName}>
+        {columns.map((arg) => (
+          <TableCell align="center">
+            <TextField
+              size="small"
+              className="bg-white"
+              onChange={(e) => handleUpdateFilterInput(e, arg.field)}
+            />
+          </TableCell>
+        ))}
+      </TableRow>
+    </TableHead>
+  );
+}
+
+export default function DataTable(props: DataTableProps) {
+  const { columns } = props;
   const { rowSize = "medium" } = props;
+  const [data, setData] = React.useState(rows);
+  const [filterInputs, setFilterInputs] = React.useState<FilterInputsProps>({});
+
+  const toLowerString = (arg: any) => String(arg).toLowerCase;
+
+  React.useEffect(() => {
+    let tempData = [...rows];
+    if (Object.values(filterInputs)) {
+      Object.keys(filterInputs).map(
+        (e) =>
+          (tempData = tempData.filter((arg) =>
+            String(arg[e])
+              .toLowerCase()
+              .includes(filterInputs[e]!.toLowerCase())
+          ))
+      );
+      // tempData = tempData.map((row) =>
+      //   Object.keys(row).map(
+      //     (el) => toLowerString(row[el]) == toLowerString(filterInputs[el])
+      //   )
+      // );
+      setData(tempData);
+      console.log(Object.values(filterInputs));
+      // console.log(tempData);
+    }
+  }, [Object.values(filterInputs)]);
+
   return (
     <Table size={rowSize} aria-label="a dense table">
-      <TableHead>
-        <TableRow className="bg-slate-100">
-          {columns.map((e) => (
-            <TableCell>{e.headerName}</TableCell>
-          ))}
-        </TableRow>
-        <TableRow className="bg-slate-100">
-          {columns.map((arg) => (
-            <TableCell>
-              <TextField
-                size="small"
-                className="bg-white"
-                onChange={(e) => handleUpdateFilterInput(e, arg.field)}
-              />
-            </TableCell>
-          ))}
-        </TableRow>
-      </TableHead>
+      <TableHeader
+        columns={columns}
+        filterInputs={filterInputs}
+        setFilterInputs={setFilterInputs}
+        rowclassName="bg-slate-50"
+      />
       <TableBody>
         {data.map((row, index) => (
           <TableRow
