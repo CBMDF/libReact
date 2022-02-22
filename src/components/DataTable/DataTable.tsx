@@ -42,8 +42,9 @@ export function TableHeader(props: {
   filterInputs: FilterInputsProps;
   setFilterInputs: (arg: FilterInputsProps) => void;
   rowclassName?: string;
+  allowGlobalFilter?: boolean;
 }) {
-  const { columns, filterInputs, setFilterInputs, rowclassName } = props;
+  const { columns, filterInputs, setFilterInputs, rowclassName, allowGlobalFilter } = props;
   function handleUpdateFilterInput(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     field: string
@@ -54,7 +55,7 @@ export function TableHeader(props: {
 
   return (
     <TableHead>
-      <TableRow className={rowclassName}>
+      {allowGlobalFilter && <TableRow className={rowclassName}>
         <TableCell colSpan={columns.length - 1} />
         <TableCell>
           <TextField
@@ -63,15 +64,15 @@ export function TableHeader(props: {
             onChange={(e) => handleUpdateFilterInput(e, "globalFilter")}
           />
         </TableCell>
-      </TableRow>
+      </TableRow>}
       <TableRow className={rowclassName}>
         {columns.map((e) => (
-          <TableCell align="center">{e.headerName}</TableCell>
+          <TableCell key={e.field} align="center">{e.headerName}</TableCell>
         ))}
       </TableRow>
       <TableRow className={rowclassName}>
         {columns.map((arg) => (
-          <TableCell align="center">
+          <TableCell align="center" key={arg.field}>
             <TextField
               size="small"
               className="bg-white"
@@ -90,29 +91,23 @@ export default function DataTable(props: DataTableProps) {
   const [data, setData] = React.useState(rows);
   const [filterInputs, setFilterInputs] = React.useState<FilterInputsProps>({});
 
-  const toLowerString = (arg: any) => String(arg).toLowerCase;
+  const toLowerString = (arg: any) => String(arg).toLowerCase();
+
+  const filterData = (dataToBeFiltered:{ [key: string]: any }[],columnFilters:FilterInputsProps) => {
+    if(Object.values(columnFilters).filter(e=>e).length == 0) return dataToBeFiltered;
+
+      dataToBeFiltered = dataToBeFiltered.filter(row =>
+        Object.keys(columnFilters).every(
+          el => toLowerString(row[el]).includes(toLowerString(filterInputs[el]))
+        )
+      );
+      return dataToBeFiltered
+  }
 
   React.useEffect(() => {
-    let tempData = [...rows];
-    if (Object.values(filterInputs)) {
-      Object.keys(filterInputs).map(
-        (e) =>
-          (tempData = tempData.filter((arg) =>
-            String(arg[e])
-              .toLowerCase()
-              .includes(filterInputs[e]!.toLowerCase())
-          ))
-      );
-      // tempData = tempData.map((row) =>
-      //   Object.keys(row).map(
-      //     (el) => toLowerString(row[el]) == toLowerString(filterInputs[el])
-      //   )
-      // );
-      setData(tempData);
-      console.log(Object.values(filterInputs));
-      // console.log(tempData);
-    }
-  }, [Object.values(filterInputs)]);
+    let filteredData = filterData([...rows],filterInputs);
+      setData(filteredData);
+  }, [filterInputs]);
 
   return (
     <Table size={rowSize} aria-label="a dense table">
@@ -129,7 +124,7 @@ export default function DataTable(props: DataTableProps) {
             sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
           >
             {columns.map((el) => (
-              <TableCell component="th" scope="row">
+              <TableCell component="th" scope="row" key={el.field}>
                 {row[el.field as keyof typeof row]}
               </TableCell>
             ))}

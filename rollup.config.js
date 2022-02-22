@@ -7,6 +7,7 @@ import dts from "rollup-plugin-dts";
 import { terser } from "rollup-plugin-terser";
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import image from '@rollup/plugin-image';
+const prettier = require('rollup-plugin-prettier');
 const packageJson = require("./package.json");
 
 export default [
@@ -31,7 +32,11 @@ export default [
       typescript({ tsconfig: "./tsconfig.json" }),
       postcss(),
       terser(),
-      image()    ],
+      image(),
+      prettier({
+        tabWidth: 2,
+      }),
+    ],
   },
   {
     input: "dist/esm/types/index.d.ts",
