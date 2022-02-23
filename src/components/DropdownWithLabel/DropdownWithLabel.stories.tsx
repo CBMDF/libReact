@@ -30,7 +30,7 @@ export const Template: ComponentStory<typeof DropdownWithLabel> = (args) => {
   return (
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit)}>
-        <div className="flex flex-col items-end pl-5 space-y-5">
+        <div className="flex flex-col items-end w-1/2 pl-5 space-y-5">
           <DropdownWithLabel
             {...args}
             options={options}

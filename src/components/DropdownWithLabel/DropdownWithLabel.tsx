@@ -35,16 +35,18 @@ export interface DropdownWithLabelProps {
   required?: boolean;
   onChange?: (e: any) => void;
   loading?: boolean;
+  className?: string;
   helperText?: string;
 }
 
-const DropdownWithLabel = (props: DropdownWithLabelProps) => {
+export default function DropdownWithLabel(props: DropdownWithLabelProps) {
   const methods = useFormContext();
   return (
     <div
       className={clsx(
         "flex items-center justify-between w-full pt-2",
-        props.labelPosition === "top" ? "flex-col text-left" : "flex-row"
+        props.labelPosition === "top" ? "flex-col text-left" : "flex-row",
+        props.className
       )}
     >
       {props.label && (
@@ -56,9 +58,9 @@ const DropdownWithLabel = (props: DropdownWithLabelProps) => {
       )}
 
       {props.loading ? (
-        <div className="min-w-full md:min-w-[33%] h-14 rounded-md bg-slate-200 animate-pulse" />
+        <div className="w-full rounded-md h-14 bg-slate-200 animate-pulse" />
       ) : (
-        <div className="min-w-full md:min-w-[33%]">
+        <div className="w-full">
           <Controller
             control={methods.control}
             name={props.name}
@@ -96,6 +98,4 @@ const DropdownWithLabel = (props: DropdownWithLabelProps) => {
       )}
     </div>
   );
-};
-
-export default DropdownWithLabel;
+}
