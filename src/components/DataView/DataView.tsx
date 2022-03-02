@@ -7,12 +7,12 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Select, TextField } from "@mui/material";
-import DropdownWithLabel from "../DropdownWithLabel";
+import DropdownWithLabel from "../RHFDropdownWithLabel";
 import FireflyButton from "../FireflyButton";
 import clsx from "clsx";
 
 export interface DataViewProps {
-  text?:string;
+  text?: string;
   columns: ColumnsProps;
 }
 
@@ -25,25 +25,31 @@ export interface ColumnsProps {
 }
 
 const toggleOptions = [
-  {name:'A', value:1},
-  {name:'B', value:2},
-]
+  { name: "A", value: 1 },
+  { name: "B", value: 2 },
+];
 
 export default function DataView(props: DataViewProps) {
-  const [viewMode,setViewMode] = React.useState<string>('A');
+  const [viewMode, setViewMode] = React.useState<string>("A");
   return (
-  <div className="p-5 border rounded-md">
-    <div id='dataview-header' className=" flex items-center justify-between p-2 pb-4 border-b">
-          <div>
-          <Select className="h-8 w-52"/>
-          </div>
-          <div>
-          <ToogleSelect opcoes={toggleOptions} opcaoEscolhida={viewMode} setOpcaoEscolhida={setViewMode}/>
-          </div>
+    <div className="p-5 border rounded-md">
+      <div
+        id="dataview-header"
+        className=" flex items-center justify-between p-2 pb-4 border-b"
+      >
+        <div>
+          <Select className="h-8 w-52" />
+        </div>
+        <div>
+          <ToogleSelect
+            opcoes={toggleOptions}
+            opcaoEscolhida={viewMode}
+            setOpcaoEscolhida={setViewMode}
+          />
+        </div>
+      </div>
+      <div className="grid grid-cols-4 gap-4"></div>
     </div>
-    <div className="grid grid-cols-4 gap-4">
-    </div>
-  </div>
   );
 }
 

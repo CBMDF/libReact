@@ -47,7 +47,7 @@ const FireflyButton = (props: {
   } = props;
 
   return (
-    <>
+    <div>
       <button
         type={type}
         disabled={disabled}
@@ -86,7 +86,7 @@ const FireflyButton = (props: {
           </div>
         )}
       </button>
-    </>
+    </div>
   );
 };
 

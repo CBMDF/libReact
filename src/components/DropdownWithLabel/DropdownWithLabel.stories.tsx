@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { FormProvider, useForm } from "react-hook-form";
-import DropdownWithLabel from ".";
 import FireflyCard from "../FireflyCard";
-import FireflyButton from "../FireflyButton";
+import DropdownWithLabel from ".";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -13,7 +11,6 @@ export default {
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 export const Template: ComponentStory<typeof DropdownWithLabel> = (args) => {
-  const methods = useForm();
   const [text, setText] = useState<string>();
   const options = [
     { label: "Tipo A", value: "A" },
@@ -22,34 +19,24 @@ export const Template: ComponentStory<typeof DropdownWithLabel> = (args) => {
     { label: "Tipo D", value: "D" },
   ];
 
-  const onSubmit = (data: any) => {
-    console.log(methods.formState.errors);
-    setText(data);
-  };
-
   return (
-    <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>
-        <div className="flex flex-col items-end w-1/2 pl-5 space-y-5">
-          <DropdownWithLabel
-            {...args}
-            options={options}
-            name="tipo"
-            label="Tipo"
-          />
-          <FireflyButton
-            label="Submit"
-            type="submit"
-            variant="confirm"
-            className="w-20"
-          />
-          {text && (
-            <FireflyCard fullWidth>
-              <p>{JSON.stringify(text)}</p>
-            </FireflyCard>
-          )}
-        </div>
-      </form>
-    </FormProvider>
+    <div className="flex flex-col items-end w-full pl-5 space-y-10">
+      <div className="w-full bg-yellow-100">
+        Esse Input é controlado, ou seja, você precisa fornecer o "value" o o
+        método "onChange".
+      </div>
+      <DropdownWithLabel
+        {...args}
+        options={options}
+        name="tipo"
+        label="Tipo"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+      />
+
+      <FireflyCard fullWidth title="SAÍDA">
+        <p>{JSON.stringify(text)}</p>
+      </FireflyCard>
+    </div>
   );
 };

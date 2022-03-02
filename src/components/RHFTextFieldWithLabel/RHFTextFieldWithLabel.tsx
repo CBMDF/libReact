@@ -3,11 +3,9 @@ import clsx from "clsx";
 import React, { HTMLInputTypeAttribute } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 
-export interface TextFieldWithLabelProps {
+export interface RHFTextFieldWithLabelProps {
   name: string;
   variant: "standard" | "outlined" | "filled";
-  value: any;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   type?: HTMLInputTypeAttribute;
   label?: string;
   disabled?: boolean;
@@ -17,8 +15,11 @@ export interface TextFieldWithLabelProps {
   helperText?: string;
 }
 
-export default function TextFieldWithLabel(props: TextFieldWithLabelProps) {
+export default function RHFTextFieldWithLabel(
+  props: RHFTextFieldWithLabelProps
+) {
   const { variant = "standard", type = "text" } = props;
+  const methods = useFormContext();
 
   return (
     <div
@@ -40,15 +41,22 @@ export default function TextFieldWithLabel(props: TextFieldWithLabelProps) {
         <div className="flex-grow rounded-md h-14 bg-slate-200 animate-pulse" />
       ) : (
         <div className="w-full">
-          <TextField
-            className="w-full"
-            type={type}
-            onChange={props.onChange}
-            label={props.label}
-            variant={variant}
-            helperText={props.helperText}
-            required={props.required}
-            disabled={props.disabled}
+          <Controller
+            control={methods.control}
+            name={props.name}
+            rules={{ required: props.required ? props.required : false }}
+            render={({ field }) => (
+              <TextField
+                className="w-full"
+                type={type}
+                onChange={field.onChange}
+                label={props.label}
+                variant={variant}
+                helperText={props.helperText}
+                required={props.required}
+                disabled={props.disabled}
+              />
+            )}
           />
         </div>
       )}

@@ -1,6 +1,6 @@
 {
   "name": "lib-cbmdf",
-  "version": "1.0.23",
+  "version": "1.0.24",
   "repository": {
     "type": "git",
     "url": "git@simao.cbm.df.gov.br:desenv/lib-cbmdf.git"
@@ -74,6 +74,7 @@
     "@mui/icons-material": "^5.4.2",
     "@mui/material": "^5.4.2",
     "clsx": "^1.1.1",
+    "date-fns": "^2.28.0",
     "react-hook-form": "^7.27.0"
   }
 }
