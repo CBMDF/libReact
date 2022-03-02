@@ -12,6 +12,7 @@ import { Controller, useFormContext, UseFormReturn } from "react-hook-form";
 export interface RHFDropdownWithLabelProps {
   name: string;
   options: { label: any; value: any }[] | null | undefined;
+  size?: "medium" | "small";
   label?: string;
   disabled?: boolean;
   labelPosition?: "top" | "side";
@@ -23,7 +24,7 @@ export interface RHFDropdownWithLabelProps {
 
 export default function RHFDropdownWithLabel(props: RHFDropdownWithLabelProps) {
   const methods = useFormContext();
-  const { labelPosition = "side" } = props;
+  const { labelPosition = "side", size = "small" } = props;
   return (
     <div
       className={clsx(
@@ -59,7 +60,11 @@ export default function RHFDropdownWithLabel(props: RHFDropdownWithLabelProps) {
                     required={props.required}
                   >
                     <InputLabel>{props.label}</InputLabel>
-                    <Select label={props.label} onChange={field.onChange}>
+                    <Select
+                      label={props.label}
+                      onChange={field.onChange}
+                      size={size}
+                    >
                       {props.options && props.options?.length > 0 ? (
                         props.options.map((e) => (
                           <MenuItem key={e.value} value={e.value}>
