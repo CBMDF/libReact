@@ -1,4 +1,3 @@
-import { useQuery } from "@apollo/client";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import clsx from "clsx";
 import { isSameMonth, subMonths, addMonths, isSameDay } from "date-fns";
@@ -12,9 +11,7 @@ interface CalendarioDeAlasProps {
   handleChooseDate: (date: Date) => void;
 }
 
-export default function CalendarioDeAlas(
-  props: CalendarioDeAlasProps
-): JSX.Element {
+export function CalendarioDeAlas(props: CalendarioDeAlasProps): JSX.Element {
   const [datEscolhida, setDatEscolhida] = useState<Date>(
     props.datEscolhida ?? new Date()
   );

@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { FormProvider, useForm } from "react-hook-form";
 import FireflyCard from "../FireflyCard";
 import FireflyButton from "../FireflyButton";
-import { InputCalendarioAlas } from ".";
+import { InputCalendarioAlas } from "..";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

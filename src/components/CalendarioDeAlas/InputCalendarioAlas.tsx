@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import CalendarioDeAlas from "./calendarioDeAlas";
 import clsx from "clsx";
 import { format } from "date-fns";
 import { useFormContext } from "react-hook-form";
 import { Dialog } from "@mui/material";
+import { CalendarioDeAlas } from "./CalendarioDeAlas";
 
 interface InputCalendarioAlasProps {
   name: string;
