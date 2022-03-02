@@ -10,7 +10,10 @@ interface InputCalendarioAlasProps {
   label: string;
 }
 
-export function InputCalendarioAlas({ name, label }: InputCalendarioAlasProps) {
+export default function InputCalendarioAlas({
+  name,
+  label,
+}: InputCalendarioAlasProps) {
   const methods = useFormContext();
   const [isVisible, setVisible] = useState(false);
 
