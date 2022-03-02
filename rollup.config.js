@@ -5,9 +5,9 @@ import postcss from "rollup-plugin-postcss";
 import dts from "rollup-plugin-dts";
 
 import { terser } from "rollup-plugin-terser";
-import peerDepsExternal from 'rollup-plugin-peer-deps-external';
-import image from '@rollup/plugin-image';
-const prettier = require('rollup-plugin-prettier');
+import peerDepsExternal from "rollup-plugin-peer-deps-external";
+import image from "@rollup/plugin-image";
+// const prettier = require('rollup-plugin-prettier');
 const packageJson = require("./package.json");
 
 export default [
@@ -33,15 +33,15 @@ export default [
       postcss(),
       terser(),
       image(),
-      prettier({
-        tabWidth: 2,
-      }),
+      // prettier({
+      //   tabWidth: 2,
+      // }),
     ],
   },
   {
     input: "dist/esm/types/index.d.ts",
     output: [{ file: "dist/index.d.ts", format: "esm" }],
     plugins: [dts()],
-    external: [/\.(css|less|scss)$/, 'react', 'react-dom'],
+    external: [/\.(css|less|scss)$/, "react", "react-dom"],
   },
 ];
