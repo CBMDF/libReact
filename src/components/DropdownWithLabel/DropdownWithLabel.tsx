@@ -14,6 +14,7 @@ export interface DropdownWithLabelProps {
   options: { label: any; value: any }[] | null | undefined;
   value: any;
   onChange: (e: SelectChangeEvent<string>, child: ReactNode) => void;
+  variant?: "standard" | "outlined" | "filled";
   size?: "medium" | "small";
   label?: string;
   disabled?: boolean;
@@ -22,10 +23,15 @@ export interface DropdownWithLabelProps {
   loading?: boolean;
   className?: string;
   helperText?: string;
+  placeHolder?: string;
 }
 
 export default function DropdownWithLabel(props: DropdownWithLabelProps) {
-  const { labelPosition = "side", size = "small" } = props;
+  const {
+    labelPosition = "side",
+    size = "small",
+    variant = "standard",
+  } = props;
   return (
     <div
       className={clsx(
@@ -52,12 +58,13 @@ export default function DropdownWithLabel(props: DropdownWithLabelProps) {
             disabled={props.disabled}
             required={props.required}
           >
-            <InputLabel>{props.label}</InputLabel>
+            {props.placeHolder && <InputLabel>{props.placeHolder}</InputLabel>}
             <Select
               label={props.label}
               value={props.value}
               onChange={props.onChange}
               size={size}
+              variant={variant}
             >
               {props.options && props.options?.length > 0 ? (
                 props.options.map((e) => (
