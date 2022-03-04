@@ -25,66 +25,6 @@ export interface FilterInputsProps {
   [key: string]: string | undefined;
 }
 
-const rows: { [key: string]: any }[] = [
-  { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-  { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-  { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-  { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-  { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-  { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-  { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-  { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-  { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-];
-
-export function TableHeader(props: {
-  columns: ColumnsProps[];
-  filterInputs: FilterInputsProps;
-  setFilterInputs: (arg: FilterInputsProps) => void;
-  rowclassName?: string;
-  allowGlobalFilter?: boolean;
-}) {
-  const { columns, filterInputs, setFilterInputs, rowclassName, allowGlobalFilter } = props;
-  function handleUpdateFilterInput(
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    field: string
-  ) {
-    let temp = { ...filterInputs!, [field]: e.target.value };
-    setFilterInputs(temp);
-  }
-
-  return (
-    <TableHead>
-      {allowGlobalFilter && <TableRow className={rowclassName}>
-        <TableCell colSpan={columns.length - 1} />
-        <TableCell>
-          <TextField
-            size="small"
-            className="bg-white"
-            onChange={(e) => handleUpdateFilterInput(e, "globalFilter")}
-          />
-        </TableCell>
-      </TableRow>}
-      <TableRow className={rowclassName}>
-        {columns.map((e) => (
-          <TableCell key={e.field} align="center">{e.headerName}</TableCell>
-        ))}
-      </TableRow>
-      <TableRow className={rowclassName}>
-        {columns.map((arg) => (
-          <TableCell align="center" key={arg.field}>
-            <TextField
-              size="small"
-              className="bg-white"
-              onChange={(e) => handleUpdateFilterInput(e, arg.field)}
-            />
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  );
-}
-
 export default function DataTable(props: DataTableProps) {
   const { columns } = props;
   const { rowSize = "medium" } = props;
@@ -134,3 +74,63 @@ export default function DataTable(props: DataTableProps) {
     </Table>
   );
 }
+
+export function TableHeader(props: {
+  columns: ColumnsProps[];
+  filterInputs: FilterInputsProps;
+  setFilterInputs: (arg: FilterInputsProps) => void;
+  rowclassName?: string;
+  allowGlobalFilter?: boolean;
+}) {
+  const { columns, filterInputs, setFilterInputs, rowclassName, allowGlobalFilter } = props;
+  function handleUpdateFilterInput(
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    field: string
+  ) {
+    let temp = { ...filterInputs!, [field]: e.target.value };
+    setFilterInputs(temp);
+  }
+
+  return (
+    <TableHead>
+      {allowGlobalFilter && <TableRow className={rowclassName}>
+        <TableCell colSpan={columns.length - 1} />
+        <TableCell>
+          <TextField
+            size="small"
+            className="bg-white"
+            onChange={(e) => handleUpdateFilterInput(e, "globalFilter")}
+          />
+        </TableCell>
+      </TableRow>}
+      <TableRow className={rowclassName}>
+        {columns.map((e) => (
+          <TableCell key={e.field}>{e.headerName}</TableCell>
+        ))}
+      </TableRow>
+      <TableRow className={rowclassName}>
+        {columns.map((arg) => (
+          <TableCell key={arg.field}>
+            <TextField
+              size="small"
+              className="bg-white"
+              onChange={(e) => handleUpdateFilterInput(e, arg.field)}
+            />
+          </TableCell>
+        ))}
+      </TableRow>
+    </TableHead>
+  );
+}
+
+const rows: { [key: string]: any }[] = [
+  { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
+  { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
+  { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
+  { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
+  { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
+  { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
+  { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
+  { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
+  { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
+];
