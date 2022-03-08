@@ -28,8 +28,8 @@ const Template: ComponentStory<typeof FireflyAutoComplete> = (args) => (
 );
 
 const GET_RATES = gql`
-  query GetRates($searchText: String!) {
-    rates(currency: $searchText) {
+  query GetRates($currency: String!) {
+    rates(currency: $currency) {
       rate
       name
       currency
@@ -47,7 +47,9 @@ Home.args = {
   loadingText: "Carregando... Digite 3 caracteres.",
   noOptionsText: "Não foi encontrado.  Digite 4 caracteres.",
   label: "Digite nome/cpf",
-  minCaracteres: 1
+  minCaracteres: 1,
+  answerText: 'currency',
+  onChange: (e: any, v: any) => { console.log(e);console.log(v); }
 };
 
 // query MyQueryfnGovbrGetPessoasPorCpf($cpf: String!) {

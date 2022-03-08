@@ -22,7 +22,14 @@ const FireflyAutoComplete = (props: any) => {
     }
     if (r === "input" && searchText.length > props.minCaracteres) {
       await set_controller(new AbortController());
-      const data = await getRates({ variables: { searchText: searchText } });
+
+      var key = props.searchText;
+
+      const course = {
+        [key]: searchText,
+      };
+
+      const data = await getRates({ variables: course });
 
       if (props.secondLevel) {
         setOptions(data.data[props.firstLevel][props.secondLevel]);
@@ -46,8 +53,14 @@ const FireflyAutoComplete = (props: any) => {
         return option[props.searchText] === value[props.searchText];
       }}
       getOptionLabel={(option) => {
-        return option[props.searchText];
+        return option[props.answerText];
       }}
+
+      onChange={(e,v) => {
+        props.onChange(e,v);
+      }
+      }
+
       options={options}
       loading={loadingRates || options.length === 0}
       loadingText={props.loadingText}
