@@ -12,7 +12,7 @@ const FireflyAutoComplete = (props: any) => {
   const [getRates, { loading: loadingRates }] = useLazyQuery(props.graphql, {
     context: {
       fetchOptions: { signal: _controller.signal },
- //     queryDeduplication: false,
+      //     queryDeduplication: false,
     },
   });
 
@@ -20,7 +20,7 @@ const FireflyAutoComplete = (props: any) => {
     if (loadingRates) {
       _controller.abort();
     }
-    if (r === "input" && searchText.length > props.minCaracteres) {
+    if (r === "input" && searchText && searchText.length > props.minCaracteres) {
       await set_controller(new AbortController());
 
       var key = props.searchText;
@@ -31,18 +31,34 @@ const FireflyAutoComplete = (props: any) => {
 
       const data = await getRates({ variables: course });
 
-      if (props.secondLevel) {
+      if (props.secondLevel && data.data[props.firstLevel][props.secondLevel]) {
+
         setOptions(data.data[props.firstLevel][props.secondLevel]);
       } else {
-        setOptions(data.data[props.firstLevel]);
+
+        if (data.data[props.firstLevel]) {
+          setOptions(data.data[props.firstLevel]);
+        } else {
+
+          console.log('nao veio nada1');
+
+        }
+
+
       }
+    } else {
+      console.log('nao veio nada2');
     }
-    if (r === "input" && searchText.length <= props.minCaracteres) {
+    if (r === "input" && searchText && searchText.length <= props.minCaracteres) {
       setOptions([]);
     }
+
+
   };
 
   return (
+
+
     <Autocomplete
       autoHighlight={true}
       autoComplete={true}
@@ -50,19 +66,21 @@ const FireflyAutoComplete = (props: any) => {
       id="asynchronous-demo"
       sx={{ width: 500 }}
       isOptionEqualToValue={(option, value) => {
+
         return option[props.searchText] === value[props.searchText];
       }}
       getOptionLabel={(option) => {
+
         return option[props.answerText];
       }}
 
-      onChange={(e,v) => {
-        props.onChange(e,v);
+      onChange={(e, v) => {
+        props.onChange(e, v);
       }
       }
 
       options={options}
-      loading={loadingRates || options.length === 0}
+      loading={loadingRates || (options && options.length === 0)}
       loadingText={props.loadingText}
       noOptionsText={props.noOptionsText}
       renderInput={(params) => (
@@ -83,6 +101,7 @@ const FireflyAutoComplete = (props: any) => {
         />
       )}
     />
+
   );
 };
 
