@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { CircularProgress, Icon, SvgIcon } from "@mui/material";
 
 const FireflyButton = (props: {
-  label: string;
+  label?: string;
   id?: string;
   size?: "base" | "sm" | "lg";
   variant?: "info" | "warning" | "error" | "confirm" | "custom";
@@ -25,6 +25,7 @@ const FireflyButton = (props: {
   type?: "submit" | "reset" | "button";
   StartIcon?: any;
   EndIcon?: any;
+  rounded?: 'rounded'| 'rounded-none' |'rounded-sm' | 'rounded-md' | 'rounded-lg' | 'rounded-xl' ; 
   // ['data-cy']?: string;
   // ['data-tour']?: string;
 }) => {
@@ -47,14 +48,13 @@ const FireflyButton = (props: {
   } = props;
 
   return (
-    <div>
       <button
         type={type}
         disabled={disabled}
         onClick={onClick}
         id={id}
         className={clsx(
-          "rounded-3xl duration-300 inline-flex space-x-2",
+          "duration-300 inline-flex  p-0",
           variant === "info" &&
             "font-header text-white bg-blue-600 hover:bg-blue-400 focus:border-white hover:opacity-95",
           variant === "warning" &&
@@ -65,20 +65,19 @@ const FireflyButton = (props: {
             "font-header text-white bg-green-600 hover:bg-green-500 focus:border-white hover:opacity-95",
           variant === "custom" &&
             "font-header focus:border-white hover:opacity-95",
-
-          size === "sm" && "text-xs md:text-sm py-0.5 p-2",
-          size === "base" && "text-base py-2 p-4",
-          size === "lg" && "text-lg py-2 p-8 md:text-xl md:py-3",
+          size === "sm" && "text-xs md:text-sm py-0.5 space-x-1",
+          size === "base" && "text-base py-2 space-x-2",
+          size === "lg" && "text-lg py-2 md:text-xl md:py-3 px-2 space-x-3",
           disabled && "text-opacity-80 bg-opacity-30",
-          fullWidth && "w-full",
+          props.rounded,
           className
         )}
       >
-        <div className="relative flex items-center">
-          {StartIcon && StartIcon()}
-          {label}
-          {EndIcon && EndIcon()}
-        </div>
+          
+          <div>{StartIcon && React.cloneElement(StartIcon)}</div>
+          <div>{label}</div>
+          <div>{EndIcon && React.cloneElement(EndIcon)}</div>
+
 
         {loading && (
           <div className={clsx("text-xs")}>
@@ -86,7 +85,6 @@ const FireflyButton = (props: {
           </div>
         )}
       </button>
-    </div>
   );
 };
 
