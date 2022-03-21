@@ -24,16 +24,14 @@ ThemeConfig.propTypes = {
 
 
 export default function ThemeConfig({ children }: { children: React.ReactNode }) {
-  const themeOptions = useMemo(
-    () => ({
-      palette,
-      shape,
-      typography,
-      shadows,
-      customShadows,
-    }),
-    []
-  );
+  const themeOptions =
+  {
+    palette,
+    shape,
+    typography,
+    shadows,
+    customShadows,
+  };
 
   const theme = createTheme(themeOptions);
   theme.components = componentsOverride(theme);

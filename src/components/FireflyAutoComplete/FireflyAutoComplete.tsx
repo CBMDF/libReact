@@ -2,12 +2,15 @@ import * as React from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
-
+import { useTheme } from "@mui/material";
 import { useLazyQuery } from "@apollo/client";
 
 const FireflyAutoComplete = (props: any) => {
   const [options, setOptions] = React.useState<readonly any[]>([]);
   const [_controller, set_controller] = React.useState(new AbortController()); // state
+  const theme = useTheme();
+
+  console.log("tema", theme)
 
   const [getRates, { loading: loadingRates }] = useLazyQuery(props.graphql, {
     context: {
