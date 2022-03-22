@@ -12,16 +12,16 @@ export default {
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 const Template: ComponentStory<typeof FireflyButton> = (args) => (
-  <FireflyButton {...args} 
-  // StartIcon={<ShoppingBag />}
-  EndIcon={<ShoppingBag />}
+  <FireflyButton
+    {...args}
+    // StartIcon={<ShoppingBag />}
+    EndIcon={<ShoppingBag />}
   />
 );
-
 
 export const Home = Template.bind({});
 Home.args = {
   label: "Home",
   variant: "info",
-  rounded: 'rounded-sm'
+  rounded: "rounded-sm",
 };
