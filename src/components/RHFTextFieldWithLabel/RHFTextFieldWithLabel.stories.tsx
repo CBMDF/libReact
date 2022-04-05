@@ -15,7 +15,11 @@ export default {
 export const Template: ComponentStory<typeof RHFTextFieldWithLabel> = (
   args
 ) => {
-  const methods = useForm();
+  const methods = useForm({
+    defaultValues: {
+      nomCompleto: "Pedro",
+    },
+  });
   const [text, setText] = useState<string>();
 
   const onSubmit = (data: any) => {
@@ -49,5 +53,6 @@ Template.args = {
   label: "Nome Completo",
   helperText: "Digite seu nome completo",
   variant: "filled",
+  name: "nomCompleto",
   required: true,
 };

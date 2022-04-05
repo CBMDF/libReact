@@ -13,12 +13,13 @@ export interface RHFTextFieldWithLabelProps {
   required?: boolean;
   loading?: boolean;
   helperText?: string;
+  hideLabel?: boolean;
 }
 
 export default function RHFTextFieldWithLabel(
   props: RHFTextFieldWithLabelProps
 ) {
-  const { variant = "standard", type = "text" } = props;
+  const { variant = "standard", type = "text", hideLabel = false } = props;
   const methods = useFormContext();
 
   return (
@@ -50,11 +51,12 @@ export default function RHFTextFieldWithLabel(
                 className="w-full"
                 type={type}
                 onChange={field.onChange}
-                label={props.label}
+                label={!hideLabel && props.label}
                 variant={variant}
                 helperText={props.helperText}
                 required={props.required}
                 disabled={props.disabled}
+                defaultValue={field.value}
               />
             )}
           />
