@@ -11,6 +11,7 @@ export interface DataTableProps {
   enableGlobalFilter?: boolean;
   enableColumnFilter?: boolean;
   columns: ColumnsProps[];
+  data: { [key: string]: any }[]
 }
 
 export interface ColumnsProps {
@@ -26,9 +27,9 @@ export interface FilterInputsProps {
 }
 
 export default function DataTable(props: DataTableProps) {
-  const { columns, enableGlobalFilter = true, enableColumnFilter=true } = props;
+  const { columns, enableGlobalFilter = true, enableColumnFilter=true} = props;
   const { rowSize = "medium" } = props;
-  const [data, setData] = React.useState(rows);
+  const [data, setData] = React.useState(props.data);
   const [filterInputs, setFilterInputs] = React.useState<FilterInputsProps>({});
 
   const toLowerString = (arg: any) => String(arg).toLowerCase();
@@ -45,7 +46,7 @@ export default function DataTable(props: DataTableProps) {
   }
 
   React.useEffect(() => {
-    let filteredData = filterData([...rows],filterInputs);
+    let filteredData = filterData([...data],filterInputs);
       setData(filteredData);
   }, [filterInputs]);
 
@@ -125,15 +126,3 @@ export function TableHeader(props: {
     </TableHead>
   );
 }
-
-const rows: { [key: string]: any }[] = [
-  { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-  { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-  { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-  { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-  { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-  { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-  { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-  { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-  { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-];
