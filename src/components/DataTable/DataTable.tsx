@@ -2,14 +2,14 @@ import * as React from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import { TextField } from "@mui/material";
 
 export interface DataTableProps {
   rowSize?: "small" | "medium";
+  enableGlobalFilter?: boolean;
+  enableColumnFilter?: boolean;
   columns: ColumnsProps[];
 }
 
@@ -26,7 +26,7 @@ export interface FilterInputsProps {
 }
 
 export default function DataTable(props: DataTableProps) {
-  const { columns } = props;
+  const { columns, enableGlobalFilter = true, enableColumnFilter=true } = props;
   const { rowSize = "medium" } = props;
   const [data, setData] = React.useState(rows);
   const [filterInputs, setFilterInputs] = React.useState<FilterInputsProps>({});
@@ -56,6 +56,8 @@ export default function DataTable(props: DataTableProps) {
         filterInputs={filterInputs}
         setFilterInputs={setFilterInputs}
         rowclassName="bg-slate-50"
+        enableGlobalFilter={enableGlobalFilter}
+        enableColumnFilter={enableColumnFilter}
       />
       <TableBody>
         {data.map((row, index) => (
@@ -80,9 +82,10 @@ export function TableHeader(props: {
   filterInputs: FilterInputsProps;
   setFilterInputs: (arg: FilterInputsProps) => void;
   rowclassName?: string;
-  allowGlobalFilter?: boolean;
+  enableGlobalFilter?: boolean;
+  enableColumnFilter?: boolean;
 }) {
-  const { columns, filterInputs, setFilterInputs, rowclassName, allowGlobalFilter } = props;
+  const { columns, filterInputs, setFilterInputs, rowclassName, enableGlobalFilter, enableColumnFilter } = props;
   function handleUpdateFilterInput(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     field: string
@@ -93,7 +96,7 @@ export function TableHeader(props: {
 
   return (
     <TableHead>
-      {allowGlobalFilter && <TableRow className={rowclassName}>
+      {enableGlobalFilter && <TableRow className={rowclassName}>
         <TableCell colSpan={columns.length - 1} />
         <TableCell>
           <TextField
@@ -108,7 +111,7 @@ export function TableHeader(props: {
           <TableCell key={e.field}>{e.headerName}</TableCell>
         ))}
       </TableRow>
-      <TableRow className={rowclassName}>
+      {enableColumnFilter && <TableRow className={rowclassName}>
         {columns.map((arg) => (
           <TableCell key={arg.field}>
             <TextField
@@ -118,7 +121,7 @@ export function TableHeader(props: {
             />
           </TableCell>
         ))}
-      </TableRow>
+      </TableRow>}
     </TableHead>
   );
 }

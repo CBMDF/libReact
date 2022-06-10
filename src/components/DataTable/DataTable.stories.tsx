@@ -19,7 +19,7 @@ Example.args = {
       field: "firstName",
       headerName: "First name",
       width: 150,
-      editable: true,
+      // editable: true,
     },
     {
       field: "lastName",
