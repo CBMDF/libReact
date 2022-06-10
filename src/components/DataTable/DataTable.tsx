@@ -45,6 +45,12 @@ export default function DataTable(props: DataTableProps) {
       return dataToBeFiltered
   }
 
+  React.useEffect(()=>{
+    if(props.data.length > 0){
+      setData(props.data)
+    }
+  },[props.data])
+
   React.useEffect(() => {
     let filteredData = filterData([...data],filterInputs);
       setData(filteredData);
