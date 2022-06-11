@@ -11,7 +11,7 @@ export interface DataTableProps {
   enableGlobalFilter?: boolean;
   enableColumnFilter?: boolean;
   columns: ColumnsProps[];
-  data: { [key: string]: any }[]
+  data: { [key: string]: any }[];
 }
 
 export interface ColumnsProps {
@@ -27,33 +27,41 @@ export interface FilterInputsProps {
 }
 
 export default function DataTable(props: DataTableProps) {
-  const { columns, enableGlobalFilter = true, enableColumnFilter=true} = props;
+  const {
+    columns,
+    enableGlobalFilter = true,
+    enableColumnFilter = true,
+  } = props;
   const { rowSize = "medium" } = props;
   const [data, setData] = React.useState(props.data);
   const [filterInputs, setFilterInputs] = React.useState<FilterInputsProps>({});
 
   const toLowerString = (arg: any) => String(arg).toLowerCase();
 
-  const filterData = (dataToBeFiltered:{ [key: string]: any }[],columnFilters:FilterInputsProps) => {
-    if(Object.values(columnFilters).filter(e=>e).length == 0) return dataToBeFiltered;
+  const filterData = (
+    dataToBeFiltered: { [key: string]: any }[],
+    columnFilters: FilterInputsProps
+  ) => {
+    if (Object.values(columnFilters).filter((e) => e).length == 0)
+      return dataToBeFiltered;
 
-      dataToBeFiltered = dataToBeFiltered.filter(row =>
-        Object.keys(columnFilters).every(
-          el => toLowerString(row[el]).includes(toLowerString(filterInputs[el]))
-        )
-      );
-      return dataToBeFiltered
-  }
-
-  React.useEffect(()=>{
-    if(props.data.length > 0){
-      setData(props.data)
-    }
-  },[props.data])
+    dataToBeFiltered = dataToBeFiltered.filter((row) =>
+      Object.keys(columnFilters).every((el) =>
+        toLowerString(row[el]).includes(toLowerString(filterInputs[el]))
+      )
+    );
+    return dataToBeFiltered;
+  };
 
   React.useEffect(() => {
-    let filteredData = filterData([...data],filterInputs);
-      setData(filteredData);
+    if (props.data.length > 0) {
+      setData(props.data);
+    }
+  }, [props.data]);
+
+  React.useEffect(() => {
+    let filteredData = filterData([...data], filterInputs);
+    setData(filteredData);
   }, [filterInputs]);
 
   return (
@@ -92,7 +100,14 @@ export function TableHeader(props: {
   enableGlobalFilter?: boolean;
   enableColumnFilter?: boolean;
 }) {
-  const { columns, filterInputs, setFilterInputs, rowclassName, enableGlobalFilter, enableColumnFilter } = props;
+  const {
+    columns,
+    filterInputs,
+    setFilterInputs,
+    rowclassName,
+    enableGlobalFilter,
+    enableColumnFilter,
+  } = props;
   function handleUpdateFilterInput(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     field: string
@@ -103,32 +118,38 @@ export function TableHeader(props: {
 
   return (
     <TableHead>
-      {enableGlobalFilter && <TableRow className={rowclassName}>
-        <TableCell colSpan={columns.length - 1} />
-        <TableCell>
-          <TextField
-            size="small"
-            className="bg-white"
-            onChange={(e) => handleUpdateFilterInput(e, "globalFilter")}
-          />
-        </TableCell>
-      </TableRow>}
-      <TableRow className={rowclassName}>
-        {columns.map((e) => (
-          <TableCell key={e.field}>{e.headerName}</TableCell>
-        ))}
-      </TableRow>
-      {enableColumnFilter && <TableRow className={rowclassName}>
-        {columns.map((arg) => (
-          <TableCell key={arg.field}>
+      {enableGlobalFilter && (
+        <TableRow className={rowclassName}>
+          <TableCell colSpan={columns.length - 1} />
+          <TableCell>
             <TextField
               size="small"
               className="bg-white"
-              onChange={(e) => handleUpdateFilterInput(e, arg.field)}
+              onChange={(e) => handleUpdateFilterInput(e, "globalFilter")}
             />
           </TableCell>
+        </TableRow>
+      )}
+      <TableRow className={rowclassName}>
+        {columns.map((e) => (
+          <TableCell key={e.field} width={e.width}>
+            {e.headerName}
+          </TableCell>
         ))}
-      </TableRow>}
+      </TableRow>
+      {enableColumnFilter && (
+        <TableRow className={rowclassName}>
+          {columns.map((arg) => (
+            <TableCell key={arg.field}>
+              <TextField
+                size="small"
+                className="bg-white"
+                onChange={(e) => handleUpdateFilterInput(e, arg.field)}
+              />
+            </TableCell>
+          ))}
+        </TableRow>
+      )}
     </TableHead>
   );
 }
